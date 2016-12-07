@@ -1,4 +1,4 @@
-# Build and interactive form
+# Build an interactive form
 Treehouse tech degree project 3
 
 This is the Build an interactive form Project for the treehouse tech degree
