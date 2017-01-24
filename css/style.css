@@ -138,15 +138,55 @@ button:hover {
 /* ================================= 
   Helper Classes
 ==================================== */
-
-.is-hidden {
-	display: none;
-}
-
 .clearfix::after {
   content: " ";
   display: table;
   clear: both;
+}
+
+/*My additions -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+
+/*Trying to style the label for my activity inputs -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+/*Trying to style the label for my activity inputs -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+/*Trying to style the label for my activity inputs -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+/*Trying to style the label for my activity inputs -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+/*label input{
+	color: red;
+}*/
+/*input[type="text"]:disabled:parent {
+    color: red;
+}*/
+/*input:checked {
+  margin-left: 25px;
+}*/
+#snapName{
+	background-color: tomato;
+	color: red;
+	text-align: left;
+}
+/*.disabled {
+	background-color: tomato;
+	color: red;
+}*/
+/*fieldset label[disabled:"disabled"] {
+	background-color: tomato;
+	color: red;
+}*/ 
+/*label input:checked{
+	background-color: tomato;
+	color: red;
+}*/
+/*Trying to style the label for my activity inputs -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+/*Trying to style the label for my activity inputs -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+/*Trying to style the label for my activity inputs -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+/*Trying to style the label for my activity inputs -->-->-->-->-->-->-->-->-->-->-->-->-->-->-->*/
+.is-hidden {
+	display: none;
+}
+.hide {
+   position: absolute !important;
+   top: -9999px !important;
+   left: -9999px !important;
 }
 
 /* ================================= 
