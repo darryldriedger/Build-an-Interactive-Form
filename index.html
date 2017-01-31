@@ -24,7 +24,7 @@
         <input type="text" id="name" name="user_name" placeholder="Full name" autofocus>
         
         <label for="mail">Email:</label>
-        <input type="email" id="mail" name="user_email">
+        <input type="email" id="mail" name="user_email" placeholder="Email address">
         
         <label for="title">Job Role</label>
         <select id="title" name="user_title">
@@ -99,24 +99,24 @@
         </select>
 
         <div id="credit-card" class="credit-card">
+          <div>
+            <div class="col-6 col">
+              <label for="cc-num">Card Number:</label>
+              <input id="cc-num" name="user_cc-num" type="text" placeholder="Credit Card number">
+            </div>
 
-          <div class="col-6 col">
-            <label for="cc-num">Card Number:</label>
-            <input id="cc-num" name="user_cc-num" type="text">
+            <div class="col-3 col">
+              <label for="zip">Zip Code:</label>
+              <input id="zip" name="user_zip" type="text" placeholder="Zip Code"> 
+            </div>
+
+            <div class="col-3 col">
+              <label for="cvv">CVV:</label>
+              <input id="cvv" name="user_cvv" type="text" placeholder="CVV Number"> 
+            </div>
           </div>
-
-          <div class="col-3 col">
-            <label for="zip">Zip Code:</label>
-            <input id="zip" name="user_zip" type="text"> 
-          </div>
-
-          <div class="col-3 col">
-            <label for="cvv">CVV:</label>
-            <input id="cvv" name="user_cvv" type="text"> 
-          </div>
-
-          <label for="exp-month">Expiration Date:</label>
-          <select id="exp-month" name="user_exp-month">
+          <label for="month">Expiration Date:</label>
+          <select id="month" name="user_exp-month">
             <option value="1">1 - January</option>
             <option value="2">2 - February</option>
             <option value="3">3 - March</option>
