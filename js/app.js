@@ -52,10 +52,20 @@
 	// Hiding the bit-coin message on page load
 	payPal.className = "hide";
 	// Hiding the pay-pal message on page load
-	submit.setAttribute("disabled", "disabled");
-	//disable the submit button
 
-
+	//function prevents the default event
+	const preventDef = (event)=> {
+  		event.preventDefault();
+	};
+	//function meant to be a fix for firefox ... needs more work
+	const addEvent = (element, eventName, callback)=> {
+	    if (element.addEventListener) {
+	        element.addEventListener(eventName, callback, false);
+	    } else if (element.attachEvent) {
+	        element.attachEvent("on" + eventName, callback);
+	    }
+	};
+	
 	const shirtCheck =  ()=>{
 		//check if the chosen shirt design
 		if(design.value == "js puns" || design.value == "heart js" ){
@@ -97,7 +107,7 @@
 			}
 	};
 	//a function that checks the values of the activities checkbox
-	const matchCheck = event => {
+	const matchCheck = ev => {
 		//variable for the morning activity
 		let morning = "9am-12pm";
 		//variable for the afternoon activity
@@ -105,7 +115,7 @@
 		//variable for the main conference activity
 		let mainConf = "Main Conference";
 		//chosen activity
-		let choice = event.target;
+		let choice = ev.target;
 		//parent node of the chosen activity
 		let parentChoice = choice.parentNode;
 		//parent node of the parent node of the chosen activity
@@ -122,9 +132,9 @@
 			//check to see if the text content in the parent node matches the regular expression of the string in the variable
 			if(content.match(regex) == snack){ 
 				//console log the choice value
-				console.log(`checked event ${choice.value} <--value`);
+				//console.log(`checked ev ${choice.value} <--value`);
 				//console log true or false if the attribute is checked or not
-				console.log(choice.hasAttribute("checked"));
+				//console.log(choice.hasAttribute("checked"));
 				//continues if the attribute hasnt been set to checked
 				if(choice.hasAttribute("checked") === false){
 					//sets the attribute to checked
@@ -176,11 +186,12 @@
 				//checks total cost is above zero 
 				if(totalCost > 0){
 				//sets attribute to enable to clear the errors to allow use of submit button
-    			document.querySelector("#activities").setAttribute("class", "enable");
+    			document.querySelector("#activities").setAttribute("class", "checked");
     			//checks total cost is zero
 				} else if (totalCost < 100){
 				//sets activities and disables the use of the submit button
-				document.querySelector("#activities").setAttribute("class", "error");	
+				document.querySelector("#activities").setAttribute("class", "error");
+
 				}
 			}
 		};
@@ -202,11 +213,15 @@
 		//removes the previously appended child costing	
 		actChoice.removeChild(costing);
 		}	
-		console.log(`Total cost: ${tCost}`);
+		//console.log(`Total cost: ${tCost}`);
 		//new paragraph element
 		let para = document.createElement("p");
 		//Inner text containing the dynamic cost variable
-		para.innerText = `Total Cost: $ ${tCost}`;
+		if(!document.querySelector(".checked") && tCost !== 0){
+			para.innerText = tCost;
+		} else {
+			para.innerText = `Total Cost: $ ${tCost}`;
+		}
 		//sets id to costing
 		para.setAttribute("id", "costing");
 		//takes the totalCost variable as a number and sets it to a string value
@@ -215,30 +230,30 @@
 		actChoice.appendChild(para);
 	};
 	//checks the chosen payment type and hides the others
-	const paymentCheck = event=>{
+	const paymentCheck = ev=>{
 		//removes all hidden attributes 
 		bitCoin.removeAttribute("class", "hide");
 		payPal.removeAttribute("class", "hide");
 		creditCard.removeAttribute("class", "hide");
-		console.log(event.target.value);
+		//console.log(ev.target.value);
 		//if Credit card chosen, hides the other two options
-		if(event.target.value == "credit card"){
+		if(ev.target.value == "credit card"){
 			bitCoin.setAttribute("class", "hide");
 			payPal.setAttribute("class", "hide");
 		}
 		//if paypal chosen, hides the other two options
-		if(event.target.value == "paypal"){
+		if(ev.target.value == "paypal"){
 			bitCoin.setAttribute("class", "hide");
 			creditCard.setAttribute("class", "hide");
 		}
 		//if bitcoin chosen, hides the other two options
-		if(event.target.value == "bitcoin"){
+		if(ev.target.value == "bitcoin"){
 			payPal.setAttribute("class", "hide");
 			creditCard.setAttribute("class", "hide");
 		}
 	};
 
-	const titleChecker = event => {
+	const titleChecker = ev => {
 		//checks to see if other title is chosen
 		if(titleInput.value == "other"){
 		//unhides other title
@@ -250,7 +265,7 @@
 	};
 
 	const formValidator = () => {
-		//sets the border color of an input box to red in the event of an error
+		//sets the border color of an input box to red in the ev of an error
 		const borderErr = (ref,val = "2px solid red") => {ref.style.border = val;};
 		//checks the name lengths is between 4 and 50 characters
 		const nameLen = new RegExp(/^[a-zA-Z\s]{4,50}$/, "i");
@@ -265,8 +280,8 @@
 		
 
 		const inputCheck = (divId,specs,msg1,msg2) =>{
-			//parent of the event target
-			let parent = event.target.parentNode;
+			//parent of the ev target
+			let parent = ev.target.parentNode;
 			//creates a span element
 			let span = document.createElement("span");
 			//if the divId exists remove it
@@ -275,21 +290,21 @@
 					parent.removeChild(document.getElementById(divId));
 				}
 				//insert the span element before the current target
-				parent.insertBefore(span, event.target);
+				parent.insertBefore(span, ev.target);
 				//set the attribute to the current divId
 				span.setAttribute("id", divId); 
 				//check if the input is blank
-				if(event.target.value === ""){
+				if(ev.target.value === ""){
 				//set the border color on the target input 
-				borderErr(event.target);
+				borderErr(ev.target);
 				//Give it the class error to disable the submit
 				span.setAttribute("class", "error");
 				//Present the message 1
 				span.textContent = msg1;
 				//else if the matched specs dont check out
-				} else if(!event.target.value.match(specs)){
+				} else if(!ev.target.value.match(specs)){
 				//set border color red
-				borderErr(event.target);
+				borderErr(ev.target);
 				//set class to error
 				span.setAttribute("class", "error");
 				//Present message 2
@@ -301,9 +316,9 @@
 					//set class to enable submit
 					span.setAttribute("class", "enable");
 					//remove the red border
-					borderErr(event.target,"");
+					borderErr(ev.target,"");
 					//set class to enabe submit
-					event.target.setAttribute("class", "enable");
+					ev.target.setAttribute("class", "enable");
 				}
 		};
 		//The functional list of inputs to check for errors and their corresponding messages and specs
@@ -319,7 +334,7 @@
 				inputCheck(divId,specs,msg1,msg2);
 		    }
 		    //checks the email input
-	    	if(event.target.id === "mail"){
+	    	if(checker.id === "mail"){
 
 		    	let msg1 = "Please enter your email";
 				let msg2 = "invalid email address";
@@ -329,7 +344,7 @@
 				inputCheck(divId,specs,msg1,msg2);
 	    	}
 	    	//checks the other title input
-    		if(event.target.id === "other-title"){
+    		if(checker.id === "other-title"){
     			let msg1 = "Please enter a title";
 				let msg2 = "invalid title";
 				let divId = "titleDiv";
@@ -338,7 +353,7 @@
 				inputCheck(divId,specs,msg1,msg2);
     		}
     		//checks the credit card number
-    		if(event.target.id === "cc-num"){
+    		if(checker.id === "cc-num"){
     			let msg1 = "Enter Credit Card number";
 				let msg2 = "invalid number";
 				let divId = "creditDiv";
@@ -347,7 +362,7 @@
 				inputCheck(divId,specs,msg1,msg2);
     		}
     		//checks the zip
-    		if(event.target.id === "zip"){
+    		if(checker.id === "zip"){
     			let msg1 = "Enter Zip";
 				let msg2 = "invalid Zip";
 				let divId = "zipDiv";
@@ -356,7 +371,7 @@
 				inputCheck(divId,specs,msg1,msg2);
     		}
     		//checks the cvv
-    		if(event.target.id === "cvv"){
+    		if(checker.id === "cvv"){
     			let msg1 = "Enter CVV";
 				let msg2 = "invalid CVV";
 				let divId = "cvvDiv";
@@ -371,33 +386,66 @@
 				document.querySelector("#cc-num").className = "enable";
 				document.querySelector("#cvv").className = "enable";
     		}
+    		//checks if there is at least one checked activity
+    		if(!document.querySelector(".checked")){
+				//calls cost function with the calculated total cost as an argument
+				cost("Please choose an activity");
+    		}
     		//Checks if there is any error class
     		if(document.querySelector(".error")){
-    			//logs an error message to the console
-    			console.log("there is still an error!");
+    			//gets the message element
+    			let msg = document.getElementById("subMsg");
+    			//checks for a current message and removes it
+    			if(document.getElementById("subMsg")){
+					form.removeChild(msg);
+    			}
+    			//creates a paragraph
+    			let subMsg = document.createElement("p");
+    			//sets id to subMsg
+    			subMsg.setAttribute("id", "subMsg");
+    			//sets inner text message
+    			subMsg.innerText = "Please fill all required fields";
+    			//attaches the message to the bottom of the form
+    			form.appendChild(subMsg);
+    			//adds listener to prevent default action
+    			submit.addEventListener("click", preventDef);//true or false
+    			
     		}
     		//If no error class is to be found
     		if(!document.querySelector(".error")){
-    			//removes the disabled attribute and enables submit button
-    			submit.removeAttribute("disabled");
+    			//retrieves subMsg id
+    			let msg = document.getElementById("subMsg");
+    			//remove the error message from the bottom of the form
+    			form.removeChild(msg);
+    			//removes the prevent default listener
+    			submit.removeEventListener("click", preventDef);//true or false
     		}
 		};
-			//Calls the errCheck function with the event target as the argument
-			errCheck(event.target);
+			//Calls the errCheck function with the ev target as the argument
+			//This was a fix meant to work with firefox
+	var ev = window.event || event;
+			errCheck(ev.target);
 	};
 
 // -- LISTENERS -- //
+	
 
 	//calls validator function on the form in event of a focus out from an input
-	form.addEventListener("focusout",formValidator);
+	addEvent(form, "focusout", formValidator);
+			// form.addEventListener("focusout",formValidator);
 	//calls validator function on the form in event of a keyup from an input
-	form.addEventListener("keyup",formValidator);
+	addEvent(form, "keyup", formValidator);
+			//form.addEventListener("keyup",formValidator);
 	//Adds a listener to the title selection for use with other-title
-	titleInput.addEventListener("click", titleChecker);
+	addEvent(titleInput, "click", titleChecker);
+			//titleInput.addEventListener("click", titleChecker);
 	//Adds a listener to design choices
-	design.addEventListener("change", shirtCheck);
+	addEvent(design, "change", shirtCheck);
+			//design.addEventListener("change", shirtCheck);
 	//Adds a listener to activities choices
-	actChoice.addEventListener("change",matchCheck);
-	//Adds a listener to payment options	
-	payment.addEventListener("change",paymentCheck);
+	addEvent(actChoice, "change", matchCheck);
+			//actChoice.addEventListener("change",matchCheck);
+	//Adds a listener to payment options
+	addEvent(payment, "change", paymentCheck);
+			//payment.addEventListener("change",paymentCheck);
 }());
